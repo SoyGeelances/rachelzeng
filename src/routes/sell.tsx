@@ -59,10 +59,116 @@ const STEPS = [
   { title: "Negotiation", body: "Offer review, counters and escrow management through to closing." },
 ];
 
+const SELLING_STEPS = [
+  {
+    number: 1,
+    title: "Choosing Your Listing Agent",
+    subtitle: "The foundation of a successful sale",
+    body: [
+      "Selecting the right agent to sell your property is arguably the most important decision in the entire process — it can be the difference between a top-dollar sale and leaving money on the table, especially in a shifting market where conditions can turn from a seller's advantage to a buyer's advantage quickly. Your property isn't just an asset; for most sellers, it's also deeply personal, tied to memories and milestones, and getting the sale right requires an agent who understands both the financial stakes and the emotional weight involved.",
+      "With a background spanning residential sales, investment sales, and development across Southern California and the Bay Area, I bring both market expertise and a strategic eye to positioning your property for the strongest possible outcome. From our first conversation, I take the time to understand your goals — whether that's maximizing price, minimizing time on market, or navigating a more complex situation like an inherited property — and build a plan around what matters most to you.",
+    ],
+    image:
+      "/images/steps/1-step.webp",
+  },
+  {
+    number: 2,
+    title: "Preparing Your Property",
+    subtitle: "Set the stage for top dollary",
+    body: [
+      "First impressions drive value, and the preparation that happens before a property ever hits the market often determines how it performs once it's listed. Before going live, I walk through what will move the needle most — targeted repairs, staging, decluttering, or in some cases more substantial improvements that meaningfully boost return. Not every upgrade is worth the investment, and part of my job is helping you prioritize the changes that actually pay off at sale versus the ones that simply cost time and money without moving the price.",
+      "This stage also includes coordinating any vendors or contractors needed to get the property show-ready, from cleaners and stagers to handymen and landscapers. I have experience helping sellers navigate these decisions, and I bring that judgment to every recommendation so your resources go toward what buyers will actually notice and value.",
+    ],
+    image:
+      "images/steps/2-step.webp",
+  },
+  {
+    number: 3,
+    title: "Pricing Strategy",
+    subtitle: "Data-driven, not guesswork",
+    body: [
+      "Pricing a property correctly from day one is one of the most important levers in a successful sale. Price too high and a listing can sit and lose momentum, developing a stale reputation that makes buyers wonder what's wrong with it; price too low and you leave money on the table before negotiations even begin. Getting this number right requires more than a quick glance at recent sales — it requires a deep understanding of the specific submarket your property sits in.",
+      "I build pricing strategy around current comparable sales, absorption trends, and buyer demand in your specific submarket — not a generic formula pulled from broad citywide averages. This often means looking closely at what's currently active, what's pending, and what's actually closing, along with any unique characteristics of your property that could shift its value up or down relative to comparable sales. The result is a pricing strategy grounded in real data and calibrated to create urgency among the right buyers.",
+    ],
+    image:
+      "images/steps/3-step.webp",
+  },
+  {
+    number: 4,
+    title: "Marketing & Exposure",
+    subtitle: "Get in front of the right buyers",
+    body: [
+      "A great listing needs more than a sign in the yard. From professional photography and compelling listing copy to targeted digital promotion and broker outreach, I build a marketing plan designed to create real competition for your property — because competition is what drives price. The goal at this stage is exposure: making sure the widest possible pool of qualified buyers and their agents know your property exists and understand why it's worth a look.",
+      "This means leveraging the MLS alongside targeted digital campaigns, direct outreach to agents with active buyers in your price range and area, and, where appropriate, broker previews and open houses that generate momentum. Every property is different, and I tailor the marketing approach to what will resonate most with the buyer pool most likely to be interested — whether that's an owner-user, an investor, or a developer.",
+    ],
+    image:
+      "images/steps/4-step.webp",
+  },
+  {
+    number: 5,
+    title: "Reviewing Offers",
+    subtitle: "Evaluate beyond the number",
+    body: [
+      "When offers come in, the highest price isn't always the strongest offer. Financing terms, contingencies, proposed timelines, and buyer qualification all factor into which offer actually gets to the closing table without complications — and a lower offer from a well-qualified, all-cash buyer can sometimes be a far better outcome than a higher offer that carries significant financing risk.",
+      "I walk you through every offer in detail, breaking down not just the price but the terms behind it, so you can make a fully informed decision rather than simply chasing the highest number on paper. This often involves reaching out directly to buyers' agents to better understand the strength and seriousness of each offer, giving you a clearer sense of which one is genuinely most likely to close smoothly and on schedule.",
+    ],
+    image:
+      "images/steps/5-step.webp",
+  },
+  {
+    number: 6,
+    title: "Negotiating Terms",
+    subtitle: "Protect your bottom line",
+    body: [
+      "Once you've selected an offer, the real negotiation often begins — inspection requests, repair credits, and contingency terms all get worked out during this phase, and this is frequently where deals can either stay on track or start to unravel. Buyers may come back with requests following inspections, and how those conversations are handled can significantly affect your net proceeds and your stress level along the way.",
+      "I negotiate on your behalf with a clear focus on protecting your equity and keeping the transaction moving forward, drawing on years of experience to know which requests are reasonable, which are worth pushing back on, and how to keep the deal on track without unnecessary concessions. My goal throughout this stage is to advocate firmly for your interests while keeping the relationship with the buyer's side constructive, since a cooperative transaction tends to close more smoothly than an adversarial one.",
+    ],
+    image:
+      "images/steps/6-step.webp",
+  },
+  {
+    number: 7,
+    title: "Closing Escrow",
+    subtitle: "Cross the finish line",
+    body: [
+      "From final walkthroughs to the last signatures, this final stretch of escrow is where all the earlier work comes together. Loose ends get tied up, remaining documentation gets finalized, and the timeline moves toward a defined closing date. It's a stage that requires attention to detail, since even small oversights here can cause delays right at the finish line.",
+      "I stay closely involved through this final stretch to make sure nothing is missed and the sale closes smoothly and on schedule — putting the proceeds, and the next chapter, in your hands. And once the transaction closes, I remain available as a resource, whether that's a question about the sale down the line or guidance on what comes next.",
+    ],
+    image:
+      "images/steps/7-step.webp",
+  },
+];
+
+const normalizeParagraphs = (body: string | string[]) => {
+  if (Array.isArray(body)) return body;
+  return body
+    .split(/\n\s*\n|\.\s+(?=[A-Z])/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+};
+
+const getStepLabel = (title: string) => {
+  const customLabels: Record<string, string[]> = {
+    "Choosing Your Listing Agent": ["Choosing Your", "Listing Agent"],
+    "Preparing Your Property": ["Preparing Your", "Property"],
+    "Pricing Strategy": ["Pricing", "Strategy"],
+    "Marketing & Exposure": ["Marketing &", "Exposure"],
+    "Reviewing Offers": ["Reviewing", "Offers"],
+    "Negotiating Terms": ["Negotiating", "Terms"],
+    "Closing Escrow": ["Closing", "Escrow"],
+  };
+
+  return customLabels[title] ?? [title];
+};
+
 function SellPage() {
   const [form, setForm] = useState({ address: "", name: "", email: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const currentStep = SELLING_STEPS[activeStep];
+  const paragraphs = normalizeParagraphs(currentStep.body);
 
   const inputCls =
     "h-12 w-full border border-border bg-card px-4 text-sm outline-none placeholder:text-muted-foreground focus:border-accent";
@@ -120,6 +226,82 @@ function SellPage() {
                 </div>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-border bg-[#f6f6f6] text-[#1a1a1a]">
+        <div className="mx-auto max-w-6xl px-3 py-0 sm:px-6">
+          <div className="flex items-center justify-between border-b border-[#d9d5d0] bg-[#f6f6f6] px-4 py-2 sm:px-6">
+            {SELLING_STEPS.map((step, index) => {
+              const isActive = index === activeStep;
+              return (
+                <button
+                  key={step.title}
+                  type="button"
+                  onClick={() => setActiveStep(index)}
+                  className="group flex min-w-0 flex-1 flex-col items-center justify-center pt-4 pb-2 text-center transition-all"
+                  aria-pressed={isActive}
+                >
+                  <span
+                    className={[
+                      "flex h-10 w-10 items-center justify-center rounded-full border text-sm font-medium transition-all",
+                      isActive
+                        ? "border-[#b78a4a] bg-[#b78a4a] text-white shadow-sm"
+                        : "border-[#d9d5d0] bg-white text-[#1a1a1a] group-hover:border-[#b78a4a]",
+                    ].join(" ")}
+                  >
+                    {step.number}
+                  </span>
+                  <span
+                    className={[
+                      "hidden md:block mt-3 max-w-[110px] text-[10px] font-medium uppercase leading-tight tracking-[0.08em] min-h-[25px]",
+                      isActive ? "text-[#1a1a1a]" : "text-[#4a4a4a]",
+                    ].join(" ")}
+                  >
+                    {getStepLabel(step.title).map((line, indexLine) => (
+                      <span key={`${step.title}-${indexLine}`} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-6xl px-6 py-12 sm:py-16">
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div className="pr-0 lg:pr-8">
+              <h3 className="font-serif text-2xl sm:text-3xl uppercase tracking-tight text-[#1a1a1a]">
+                {currentStep.title}
+              </h3>
+              <p className="mt-3 text-base italic text-[#444]">{currentStep.subtitle}</p>
+
+              <div className="mt-6 space-y-5 text-[0.98rem] leading-relaxed text-[#222]">
+                {paragraphs.map((paragraph) => (
+                  <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center lg:justify-end">
+              {currentStep.image ? (
+                <img
+                  src={currentStep.image}
+                  alt={currentStep.title}
+                  className="h-[260px] w-full max-w-[420px] object-cover shadow-[0_18px_45px_rgba(0,0,0,0.04)] lg:h-[290px]"
+                />
+              ) : (
+                <div
+                  className="flex h-[260px] w-full max-w-[390px] items-center justify-center text-[12rem] font-light leading-none tracking-[-0.08em] text-transparent lg:h-[290px]"
+                  style={{ WebkitTextStroke: "1px rgba(17, 17, 17, 0.35)" }}
+                >
+                  {String(currentStep.number).padStart(2, "0")}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
