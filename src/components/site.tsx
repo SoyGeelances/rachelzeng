@@ -3,10 +3,14 @@ import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
 export const CONTACT = {
-  phone: "(310) 555-1234",
-  phoneHref: "tel:+13105551234",
-  email: "rachel@rachelzeng.com",
-  address: "9665 Wilshire Blvd, Suite 400, Beverly Hills, CA 90212",
+  name: "Rachel Zeng",
+  brokerage: "Metro Assets Inc.",
+  phone: "(909) 525-0888",
+  phoneHref: "tel:+19095250888",
+  email: "rachelzeng730@gmail.com",
+  dre: "DRE 02246814",
+  brokerageDre: "DRE 01982764",
+  address: "1211 Center Court Drive, Covina, CA 91724",
 };
 
 export function Eyebrow({ children }: { children: ReactNode }) {

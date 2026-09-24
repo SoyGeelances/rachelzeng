@@ -147,7 +147,8 @@ function Footer() {
     <footer className="bg-primary text-primary-foreground">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-3">
         <div>
-          <p className="font-serif text-xl">Rachel Zeng Real Estate</p>
+          <p className="font-serif text-xl">{CONTACT.name}</p>
+          <p className="mt-1 text-sm text-primary-foreground/70">{CONTACT.brokerage}</p>
           <p className="mt-4 text-sm leading-relaxed text-primary-foreground/70">
             {CONTACT.address}
           </p>
@@ -160,6 +161,7 @@ function Footer() {
               {CONTACT.email}
             </a>
           </p>
+          <p className="mt-2 text-[11px] uppercase tracking-[0.18em] text-accent">{CONTACT.dre}</p>
           <Link
             to="/sell"
             className="mt-4 inline-block text-sm text-accent underline underline-offset-4"

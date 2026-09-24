@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Check, Handshake, Home, Megaphone, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import {
@@ -9,6 +9,7 @@ import {
   SectionTitle,
   StatGrid,
 } from "@/components/site";
+import { WEBFORMS_CONFIG, hasWebformsConfig } from "@/lib/webforms";
 
 export const Route = createFileRoute("/sell")({
   head: () => ({
@@ -162,10 +163,22 @@ const getStepLabel = (title: string) => {
 };
 
 function SellPage() {
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [form, setForm] = useState({ address: "", name: "", email: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const existingScript = document.querySelector<HTMLScriptElement>(`script[src="${WEBFORMS_CONFIG.scriptUrl}"]`);
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = WEBFORMS_CONFIG.scriptUrl;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+  }, []);
 
   const currentStep = SELLING_STEPS[activeStep];
   const paragraphs = normalizeParagraphs(currentStep.body);
@@ -173,7 +186,7 @@ function SellPage() {
   const inputCls =
     "h-12 w-full border border-border bg-card px-4 text-sm outline-none placeholder:text-muted-foreground focus:border-accent";
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const next: Record<string, string> = {};
     if (!form.address.trim()) next["address"] = "Please enter your property address.";
@@ -182,8 +195,41 @@ function SellPage() {
       next["email"] = "Please enter a valid email address.";
     setErrors(next);
     if (Object.keys(next).length === 0) {
-      setSent(true);
-      setForm({ address: "", name: "", email: "" });
+      const formEl = e.currentTarget;
+      const captchaField = formEl.querySelector<HTMLTextAreaElement>('textarea[name="h-captcha-response"]');
+      if (!captchaField || !captchaField.value.trim()) {
+        setSent(false);
+        setErrors({ email: "Please complete the captcha before sending." });
+        return;
+      }
+
+      const payload = new FormData(formEl);
+      payload.set("access_key", WEBFORMS_CONFIG.accessKey);
+      payload.set("subject", "Home valuation request");
+      payload.set("from_name", "Rachel Zeng website");
+      payload.set("replyto", String(form.email).trim());
+      payload.set("page_url", window.location.href);
+
+      try {
+        if (hasWebformsConfig) {
+          const response = await fetch(WEBFORMS_CONFIG.endpoint, {
+            method: "POST",
+            body: payload,
+          });
+          const result = (await response.json()) as { success?: boolean };
+          if (!response.ok || !result.success) {
+            throw new Error("Web3Forms submission failed");
+          }
+        }
+
+        setSent(true);
+        setForm({ address: "", name: "", email: "" });
+        setErrors({});
+        formEl.reset();
+      } catch {
+        setSent(false);
+        setErrors({ email: "We could not send your valuation request right now. Please call or email Rachel directly." });
+      }
     }
   }
 
@@ -333,9 +379,13 @@ function SellPage() {
               hours. No obligation, no automated estimate.
             </p>
           </div>
-          <form noValidate onSubmit={submit} className="space-y-4">
+          <form ref={formRef} noValidate onSubmit={submit} className="space-y-4" method="POST">
+            <input type="hidden" name="access_key" value={WEBFORMS_CONFIG.accessKey} />
+            <input type="hidden" name="source" value="rachelzeng.com/sell" />
+            <input type="checkbox" name="botcheck" className="hidden" tabIndex={-1} autoComplete="off" />
             <div>
               <input
+                name="address"
                 value={form.address}
                 maxLength={200}
                 onChange={(e) => setForm({ ...form, address: e.target.value })}
@@ -349,6 +399,7 @@ function SellPage() {
             </div>
             <div>
               <input
+                name="name"
                 value={form.name}
                 maxLength={100}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -360,6 +411,7 @@ function SellPage() {
             </div>
             <div>
               <input
+                name="email"
                 type="email"
                 value={form.email}
                 maxLength={255}
@@ -370,6 +422,7 @@ function SellPage() {
               />
               {errors["email"] ? <p className="mt-1 text-xs text-accent">{errors["email"]}</p> : null}
             </div>
+            <div className="h-captcha" data-captcha="true" data-theme="light" aria-label="Security check" />
             <GoldButton type="submit" className="w-full">
               Get Your Home Valuation
             </GoldButton>
