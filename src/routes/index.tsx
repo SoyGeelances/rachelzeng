@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Star, ArrowRight, Phone } from "lucide-react";
 
 const laHero = "/images/la-hero.jpg";
-const rachelPortrait = "/images/rachel-portrait.jpg";
+const rachelPortrait = "/images/rachel-zeng-portrait.webp";
 const prop1 = "/images/prop-1.jpg";
 const prop2 = "/images/prop-2.jpg";
 const prop3 = "/images/prop-3.jpg";
@@ -197,8 +197,8 @@ function Index() {
         <Reveal delay={100}>
           <SectionTitle
             eyebrow="About Rachel"
-            title="Fifteen years, one city, and a very short client list."
-            intro="Rachel built her practice on discretion and preparation: block-level pricing, curated buyer outreach and negotiation that protects your number. She works with a deliberately small number of clients each year so every listing gets her full attention."
+            title="Real estate is one of life&rsquo;s biggest decisions — and it deserves a thoughtful strategy."
+            intro="I combine local expertise, strategic negotiation, and a highly personalized approach to help buyers and sellers move forward with clarity and confidence. Every recommendation is tailored to your goals, the market, and the bigger picture behind the transaction."
           />
           <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
             <li>· Sotheby&rsquo;s International Realty affiliate</li>
