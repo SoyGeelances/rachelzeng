@@ -1,12 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Star, ArrowRight, Phone } from "lucide-react";
 
+import { LAND_LISTINGS } from "@/data/land-listings";
+
 const laHero = "/images/la-hero.jpg";
-const rachelPortrait = "/images/rachel-portrait.jpg";
-const prop1 = "/images/prop-1.jpg";
-const prop2 = "/images/prop-2.jpg";
-const prop3 = "/images/prop-3.jpg";
-const prop4 = "/images/prop-4.jpg";
+const rachelPortrait = "/images/rachel-zeng-portrait.webp";
 import {
   CONTACT,
   Eyebrow,
@@ -22,17 +20,20 @@ import { Reveal } from "@/components/Reveal";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Rachel Zeng | Luxury Real Estate Agent in Los Angeles" },
+      { title: "California Land Listings | Rachel Zeng" },
       {
         name: "description",
         content:
-          "Rachel Zeng sells LA luxury homes for 103% of list price in an average of 12 days. $750M+ closed across Beverly Hills, Malibu and the Westside.",
+          "Explore California land listings across Kern, Los Angeles, Riverside and San Bernardino with acreage, county data and pricing details.",
       },
-      { property: "og:title", content: "Rachel Zeng | Luxury Real Estate in Los Angeles" },
+      {
+        property: "og:title",
+        content: "California Land Listings | Rachel Zeng",
+      },
       {
         property: "og:description",
         content:
-          "Top 1% LA Realtor. 103% of list price, 12 days on market, $750M+ in career sales. Request a private consultation.",
+          "Current California land opportunities with acreage, location and investment-focused parcel details.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -59,12 +60,12 @@ const services = [
   },
 ];
 
-const listings = [
-  { img: prop1, name: "Beverly Hills Estate", price: "$8,950,000", meta: "5 BD · 7 BA · 8,200 SF" },
-  { img: prop2, name: "Malibu Oceanfront", price: "$12,400,000", meta: "4 BD · 5 BA · 5,600 SF" },
-  { img: prop3, name: "Santa Monica Modern", price: "$4,275,000", meta: "4 BD · 4 BA · 3,900 SF" },
-  { img: prop4, name: "DTLA Penthouse", price: "$3,150,000", meta: "3 BD · 3 BA · 2,850 SF" },
-];
+const listings = LAND_LISTINGS.slice(0, 4).map((listing) => ({
+  img: listing.images[0],
+  name: listing.title,
+  price: listing.price,
+  meta: `${listing.acres} acres · ${listing.county}`,
+}));
 
 const journal = [
   {
@@ -98,13 +99,15 @@ function Index() {
         />
         <div className="absolute inset-0 -z-10 bg-primary/80" />
         <div className="mx-auto max-w-6xl px-6 py-28 text-primary-foreground sm:py-36">
-          <Eyebrow>Los Angeles · Top 1% of agents</Eyebrow>
+          <Eyebrow>California land · active parcels</Eyebrow>
           <h1 className="mt-5 max-w-3xl font-serif text-4xl leading-[1.08] sm:text-6xl">
-            Selling LA&rsquo;s finest homes for 103% of list price — in 12 days.
+            California land opportunities with acreage, county data and clear
+            direction.
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/75">
-            Rachel Zeng represents buyers and sellers across Beverly Hills, Malibu, Santa Monica and
-            the Westside with discretion, precision and $750M+ in closed volume.
+            Explore vacant land listings across Kern, Los Angeles, Riverside and
+            San Bernardino — selected for acreage, location and investment
+            potential.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <GoldButton to="/sell">
@@ -132,7 +135,9 @@ function Index() {
               <div className="flex h-full flex-col bg-card p-8">
                 <span className="font-serif text-sm text-accent">0{i + 1}</span>
                 <h3 className="mt-3 font-serif text-2xl">{s.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  {s.body}
+                </p>
                 <Link
                   to={s.to}
                   className="mt-6 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.16em] text-accent hover:underline"
@@ -168,7 +173,9 @@ function Index() {
                   <div className="p-5">
                     <p className="font-serif text-lg">{l.name}</p>
                     <p className="mt-1 text-sm text-accent">{l.price}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">{l.meta}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {l.meta}
+                    </p>
                   </div>
                 </article>
               </Reveal>
@@ -197,8 +204,8 @@ function Index() {
         <Reveal delay={100}>
           <SectionTitle
             eyebrow="About Rachel"
-            title="Fifteen years, one city, and a very short client list."
-            intro="Rachel built her practice on discretion and preparation: block-level pricing, curated buyer outreach and negotiation that protects your number. She works with a deliberately small number of clients each year so every listing gets her full attention."
+            title="Real estate is one of life&rsquo;s biggest decisions — and it deserves a thoughtful strategy."
+            intro="I combine local expertise, strategic negotiation, and a highly personalized approach to help buyers and sellers move forward with clarity and confidence. Every recommendation is tailored to your goals, the market, and the bigger picture behind the transaction."
           />
           <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
             <li>· Sotheby&rsquo;s International Realty affiliate</li>
@@ -215,7 +222,11 @@ function Index() {
       <section className="border-y border-border bg-secondary py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal>
-            <SectionTitle eyebrow="Testimonials" title="What clients say" center />
+            <SectionTitle
+              eyebrow="Testimonials"
+              title="What clients say"
+              center
+            />
           </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {TESTIMONIALS.map((t, i) => (
@@ -245,15 +256,24 @@ function Index() {
       {/* Journal teaser */}
       <section className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
         <Reveal>
-          <SectionTitle eyebrow="Journal" title="Notes on the Los Angeles market" />
+          <SectionTitle
+            eyebrow="Journal"
+            title="Notes on the Los Angeles market"
+          />
         </Reveal>
         <div className="mt-10 grid gap-8 md:grid-cols-3">
           {journal.map((p, i) => (
             <Reveal key={p.title} delay={i * 80}>
               <article className="h-full border-t border-accent/50 pt-5">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-accent">{p.tag}</p>
-                <h3 className="mt-3 font-serif text-xl leading-snug">{p.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                <p className="text-[11px] uppercase tracking-[0.2em] text-accent">
+                  {p.tag}
+                </p>
+                <h3 className="mt-3 font-serif text-xl leading-snug">
+                  {p.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {p.body}
+                </p>
               </article>
             </Reveal>
           ))}
@@ -272,7 +292,10 @@ function Index() {
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <GoldButton to="/contact">Schedule a consultation</GoldButton>
-            <OutlineButton href={CONTACT.phoneHref} className="text-primary-foreground">
+            <OutlineButton
+              href={CONTACT.phoneHref}
+              className="text-primary-foreground"
+            >
               <Phone className="h-4 w-4" /> {CONTACT.phone}
             </OutlineButton>
           </div>

@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as BuyRouteImport } from './routes/buy'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as SellRouteImport } from './routes/sell'
+import { Route as PropertiesSlugRouteImport } from './routes/properties.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const SellRoute = SellRouteImport.update({
   path: '/sell',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PropertiesSlugRoute = PropertiesSlugRouteImport.update({
+  id: '/properties/$slug',
+  path: '/properties/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
   '/sell': typeof SellRoute
+  '/properties/$slug': typeof PropertiesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
   '/sell': typeof SellRoute
+  '/properties/$slug': typeof PropertiesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,22 @@ export interface FileRoutesById {
   '/buy': typeof BuyRoute
   '/contact': typeof ContactRoute
   '/sell': typeof SellRoute
+  '/properties/$slug': typeof PropertiesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/buy' | '/contact' | '/sell'
+  fullPaths:
+    '/' | '/about' | '/buy' | '/contact' | '/sell' | '/properties/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/buy' | '/contact' | '/sell'
-  id: '__root__' | '/' | '/about' | '/buy' | '/contact' | '/sell'
+  to: '/' | '/about' | '/buy' | '/contact' | '/sell' | '/properties/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/buy'
+    | '/contact'
+    | '/sell'
+    | '/properties/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +94,7 @@ export interface RootRouteChildren {
   BuyRoute: typeof BuyRoute
   ContactRoute: typeof ContactRoute
   SellRoute: typeof SellRoute
+  PropertiesSlugRoute: typeof PropertiesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +134,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/properties/$slug': {
+      id: '/properties/$slug'
+      path: '/properties/$slug'
+      fullPath: '/properties/$slug'
+      preLoaderRoute: typeof PropertiesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +150,7 @@ const rootRouteChildren: RootRouteChildren = {
   BuyRoute: BuyRoute,
   ContactRoute: ContactRoute,
   SellRoute: SellRoute,
+  PropertiesSlugRoute: PropertiesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

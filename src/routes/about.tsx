@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Star } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
-const portrait = "/images/rachel-portrait.jpg";
+const portrait = "/images/rachel-zeng-portrait.webp";
 import {
   GoldButton,
   METRICS,
@@ -36,8 +36,8 @@ function AboutPage() {
     <>
       <PageHero
         eyebrow="About"
-        title="A Los Angeles specialist, not a generalist."
-        subtitle="Sotheby's International Realty affiliate serving Beverly Hills, Malibu, Santa Monica, Brentwood, Silver Lake and the Hollywood Hills."
+        title="Rachel Zeng"
+        subtitle="Helping You Move Forward with Confidence"
       />
 
       <section className="mx-auto grid max-w-6xl gap-12 px-6 py-20 md:grid-cols-[0.85fr_1fr] md:items-center">
@@ -52,27 +52,18 @@ function AboutPage() {
           />
         </Reveal>
         <Reveal delay={120}>
-          <SectionTitle eyebrow="Meet Rachel" title="Fifteen years. One city. Every detail." />
+          <SectionTitle eyebrow="About Rachel" title="Helping You Move Forward with Confidence" />
           <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground">
             <p>
-              Rachel Zeng has spent more than fifteen years representing buyers and sellers across
-              Los Angeles&rsquo; most competitive neighborhoods, closing over $750 million in career
-              sales volume and ranking in the top 1% of agents citywide.
+              Real estate is more than a transaction—it&rsquo;s one of life&rsquo;s biggest
+              milestones. I combine market expertise, strategic negotiation, and personalized service
+              to help buyers and sellers achieve their goals with confidence.
             </p>
             <p>
-              Her market expertise is block-level: she tracks pricing, inventory and buyer behavior
-              from Malibu&rsquo;s coastline to the Hollywood Hills, so pricing decisions are based
-              on live data rather than last quarter&rsquo;s comps.
-            </p>
-            <p>
-              Every client works directly with Rachel — not a junior associate. Staging, marketing,
-              inspections, negotiations and escrow are managed personally, with a deliberately small
-              client roster.
-            </p>
-            <p>
-              As a Sotheby&rsquo;s International Realty affiliate, her listings reach a global
-              network of qualified luxury buyers, backed by editorial-grade photography, film and
-              private broker previews.
+              With experience spanning both the Bay Area and Southern California, I bring a broad
+              understanding of California&rsquo;s real estate market, along with responsive
+              communication, meticulous attention to detail, and an unwavering commitment to putting
+              my clients first.
             </p>
           </div>
           <div className="mt-8">
